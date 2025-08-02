@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="icon" href="data:,">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order - Wamoto's Kitchen</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@300;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #C6A769;
+            --deep-red: #8B0000;
+            --ivory: #FFFFF0;
+            --charcoal: #333333;
+            --light-gold: rgba(198, 167, 105, 0.3);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--charcoal);
+            color: var(--ivory);
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--light-gold) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, var(--light-gold) 0%, transparent 25%);
+        }
+
+        .hero-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 2rem;
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%),
+                url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+
+        .container {
+            background: rgba(51, 51, 51, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 3rem 4rem;
+            max-width: 1000px;
+            width: 90%;
+            margin: 2rem auto;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--light-gold) 0%, transparent 70%);
+            opacity: 0.2;
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .order-info {
+            background: rgba(139, 0, 0, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .order-info h2 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--gold);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .order-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 240, 0.05);
+            border-left: 3px solid var(--gold);
+            padding: 1rem;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .meta-label {
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .meta-value {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .tracking-progress {
+            margin: 3rem 0;
+        }
+
+        .progress-steps {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: rgba(198, 167, 105, 0.3);
+            z-index: 1;
+        }
+
+        .progress-line-active {
+            position: absolute;
+            top: 0;
+            left: 20px;
+            width: 2px;
+            background: var(--gold);
+            z-index: 2;
+            height: 0;
+            transition: height 1s ease;
+        }
+
+        .step {
+            position: relative;
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            z-index: 3;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--charcoal);
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--gold);
+        }
+
+        .step.active .step-icon {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        .step.completed .step-icon {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        .step.completed .step-icon i {
+            display: block;
+        }
+
+        .step.completed .step-icon span {
+            display: none;
+        }
+
+        .step-icon i {
+            display: none;
+            font-size: 1.2rem;
+        }
+
+        .step-icon span {
+            font-weight: 700;
+        }
+
+        .step-content {
+            flex-grow: 1;
+            padding-top: 8px;
+        }
+
+        .step-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .step.active .step-title {
+            font-weight: 700;
+        }
+
+        .step-description {
+            color: rgba(255, 255, 240, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .order-items {
+            margin-top: 3rem;
+        }
+
+        .order-items h3 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--gold);
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(198, 167, 105, 0.2);
+        }
+
+        .item-name {
+            font-weight: 500;
+        }
+
+        .item-quantity {
+            color: var(--gold);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--charcoal);
+            color: var(--ivory);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(198, 167, 105, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,240,.3);
+            border-radius: 50%;
+            border-top-color: var(--ivory);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .order-meta {
+                grid-template-columns: 1fr;
+            }
+            
+            .step {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-container">
+        <div class="container">
+            <h1>Track Your Order</h1>
+            <div class="order-info">
+                <h2><i class="fas fa-truck"></i> Order #<span id="order-id">Loading...</span></h2>
+                <div class="order-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Status</div>
+                        <div class="meta-value" id="order-status">Loading...</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Estimated Delivery</div>
+                        <div class="meta-value" id="delivery-time">Loading...</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Delivery Address</div>
+                        <div class="meta-value" id="delivery-address">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tracking-progress">
+                <h3>Order Progress</h3>
+                <div class="progress-steps" id="progress-steps">
+                    <!-- Steps dynamically updated -->
+                </div>
+            </div>
+            <div class="order-items">
+                <h3>Your Order</h3>
+                <div id="order-items-list"></div>
+            </div>
+            <a href="menu.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Menu
+            </a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order_id');
+            if (orderId) {
+                fetch(`../backend/fetch_order.php?order_id=${orderId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('order-id').textContent = orderId;
+                            document.getElementById('order-status').textContent = data.status;
+                            document.getElementById('delivery-time').textContent = data.estimatedDelivery;
+                            document.getElementById('delivery-address').textContent = data.deliveryAddress;
+                            updateOrderProgress(data.status);
+                            updateOrderItems(data.items);
+                        } else {
+                            document.getElementById('order-id').textContent = 'Invalid Order';
+                            document.getElementById('order-status').textContent = 'Not Found';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching order data:', error));
+            } else {
+                document.getElementById('order-id').textContent = 'Not Found';
+                document.getElementById('order-status').textContent = 'Invalid Order';
+            }
+        });
+
+        function updateOrderProgress(status) {
+            const steps = ['Ordered', 'Preparing', 'Ready', 'Delivering', 'Delivered'];
+            let progressHtml = '';
+            steps.forEach((step, index) => {
+                const isActive = steps.indexOf(status) >= index;
+                progressHtml += `
+                    <div class="step ${isActive ? 'completed' : ''}">
+                        <div class="step-icon"><i class="fas fa-check"></i></div>
+                        <div class="step-content">
+                            <div class="step-title">${step}</div>
+                        </div>
+                    </div>`;
+            });
+            document.getElementById('progress-steps').innerHTML = progressHtml;
+        }
+
+        function updateOrderItems(items) {
+            const itemsList = document.getElementById('order-items-list');
+            itemsList.innerHTML = '';
+            items.forEach(item => {
+                itemsList.innerHTML += `<div class="order-item">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-quantity">${item.quantity} x $${item.price.toFixed(2)}</div>
+                </div>`;
+            });
+        }
+    </script>
+</body>
+</html>

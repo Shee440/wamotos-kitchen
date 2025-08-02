@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Wamoto's Kitchen</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@300;500;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #C6A769;
+      --deep-red: #8B0000;
+      --ivory: #FFFFF0;
+      --charcoal: #333333;
+      --light-gold: rgba(198, 167, 105, 0.3);
+      --dark-bg: rgba(0, 0, 0, 0.85);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--charcoal);
+      color: var(--ivory);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 20% 30%, var(--light-gold) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, var(--light-gold) 0%, transparent 25%);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin: 2rem 0 1rem;
+      border-bottom: 1px solid var(--light-gold);
+      padding-bottom: 0.5rem;
+    }
+
+    .section {
+      background: rgba(51, 51, 51, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid var(--gold);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      background: rgba(51, 51, 51, 0.7);
+    }
+
+    th {
+      background: rgba(139, 0, 0, 0.5);
+      color: var(--ivory);
+      padding: 12px;
+      text-align: left;
+      font-weight: 500;
+      border: 1px solid var(--gold);
+    }
+
+    td {
+      padding: 12px;
+      border: 1px solid var(--gold);
+      color: var(--ivory);
+    }
+
+    tr:nth-child(even) {
+      background: rgba(198, 167, 105, 0.05);
+    }
+
+    tr:hover {
+      background: rgba(198, 167, 105, 0.1);
+    }
+
+    button {
+      background: rgba(139, 0, 0, 0.5);
+      color: var(--ivory);
+      border: 1px solid var(--gold);
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin: 0 5px;
+    }
+
+    button:hover {
+      background: rgba(139, 0, 0, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      background: rgba(51, 51, 51, 0.7);
+      border: 1px solid var(--gold);
+      color: var(--ivory);
+      border-radius: 4px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px var(--light-gold);
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    form {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: rgba(51, 51, 51, 0.6);
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .status-preparing {
+      color: #FFA500;
+    }
+
+    .status-delivered {
+      color: #32CD32;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .section {
+        padding: 1rem;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      button {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Wamoto's Kitchen Admin Dashboard</h1>
+
+    <!-- Orders Section -->
+    <div class="section">
+      <h2>Orders Management</h2>
+      <table id="ordersTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Delivery Address</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Menu Management Section -->
+    <div class="section">
+      <h2>Menu Management</h2>
+      <form id="menuForm">
+        <div class="form-title">Add New Menu Item</div>
+        <input type="text" id="menuName" placeholder="Name" required>
+        <input type="text" id="menuPrice" placeholder="Price" required>
+        <input type="text" id="menuCategory" placeholder="Category">
+        <textarea id="menuDescription" placeholder="Description"></textarea>
+        
+        <button type="submit"><i class="fas fa-plus"></i> Add Menu Item</button>
+      </form>
+      <table id="menuTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="section">
+      <h2>Customer Reviews</h2>
+      <table id="reviewsTable">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Menu</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Load all admin data
+    function loadAdminData() {
+      fetch('../backend/admin_dashboard.php')
+        .then(res => res.json())
+        .then(data => {
+          // Orders
+          const ordersTable = document.querySelector('#ordersTable tbody');
+          ordersTable.innerHTML = '';
+          data.orders.forEach(order => {
+            const statusClass = order.status === 'preparing' ? 'status-preparing' : 
+                             order.status === 'delivered' ? 'status-delivered' : '';
+            ordersTable.innerHTML += `
+              <tr>
+                <td>${order.id}</td>
+                <td>${order.user_name}</td>
+                <td>${order.room_number}</td>
+                <td class="${statusClass}">${order.status}</td>
+                <td>$${order.total_price}</td>
+                <td>
+                  <button onclick="updateStatus(${order.id}, 'preparing')"><i class="fas fa-utensils"></i> Preparing</button>
+                  <button onclick="updateStatus(${order.id}, 'delivered')"><i class="fas fa-check-circle"></i> Delivered</button>
+                </td>
+              </tr>`;
+          });
+
+          // Menu
+          const menuTable = document.querySelector('#menuTable tbody');
+          menuTable.innerHTML = '';
+          data.menu.forEach(item => {
+            menuTable.innerHTML += `
+              <tr>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>$${item.price}</td>
+                <td>${item.category}</td>
+                <td><button onclick="deleteMenu(${item.id})"><i class="fas fa-trash"></i> Delete</button></td>
+              </tr>`;
+          });
+
+          // Reviews
+          const reviewsTable = document.querySelector('#reviewsTable tbody');
+          reviewsTable.innerHTML = '';
+          data.reviews.forEach(r => {
+            // Create star rating display
+            const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+            reviewsTable.innerHTML += `
+              <tr>
+                <td>${r.user_name}</td>
+                <td>${r.menu_name}</td>
+                <td style="color: var(--gold)">${stars}</td>
+                <td>${r.comment}</td>
+                <td>${new Date(r.created_at).toLocaleDateString()}</td>
+              </tr>`;
+          });
+        });
+    }
+
+    // Update Order Status
+    function updateStatus(orderId, status) {
+      fetch(`../backend/admin_dashboard.php?action=update_status`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_id: orderId, status })
+      }).then(() => loadAdminData());
+    }
+
+    // Delete Menu Item
+    function deleteMenu(menuId) {
+      if (confirm('Are you sure you want to delete this menu item?')) {
+        fetch(`../backend/admin_dashboard.php?action=delete_menu`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: menuId })
+        }).then(() => loadAdminData());
+      }
+    }
+
+    // Add Menu Item
+    document.getElementById('menuForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('menuName').value,
+        price: document.getElementById('menuPrice').value,
+        category: document.getElementById('menuCategory').value,
+        description: document.getElementById('menuDescription').value,
+        image: document.getElementById('menuImage').value
+      };
+      
+      fetch('../backend/admin_dashboard.php?action=add_menu', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(() => {
+        this.reset();
+        loadAdminData();
+      });
+    });
+
+    window.onload = loadAdminData;
+  </script>
+</body>
+</html>;

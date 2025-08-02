@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews - Wamoto's Kitchen</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@300;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #C6A769;
+            --deep-red: #8B0000;
+            --ivory: #FFFFF0;
+            --charcoal: #333333;
+            --light-gold: rgba(198, 167, 105, 0.3);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--charcoal);
+            color: var(--ivory);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--light-gold) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, var(--light-gold) 0%, transparent 25%);
+        }
+
+        .hero-container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%),
+                url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            padding: 2rem;
+        }
+
+        .review-container {
+            background: rgba(51, 51, 51, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 3rem;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .review-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--light-gold) 0%, transparent 70%);
+            opacity: 0.2;
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 240, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        #review-form {
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 1.5rem;
+            background: rgba(255, 255, 240, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            color: var(--ivory);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+            resize: none;
+        }
+
+        textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 240, 0.15);
+            border-color: var(--ivory);
+            box-shadow: 0 0 0 2px var(--light-gold);
+        }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 240, 0.5);
+        }
+
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 1rem 2.5rem;
+            background: var(--deep-red);
+            color: var(--ivory);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 1rem auto;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .submit-btn:hover {
+            background: #6B0000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            color: var(--ivory);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(198, 167, 105, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .rating-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .rating-star {
+            font-size: 2rem;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .rating-star:hover {
+            transform: scale(1.2);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,240,.3);
+            border-radius: 50%;
+            border-top-color: var(--ivory);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Success message */
+        .success-message {
+            display: none;
+            padding: 2rem;
+            background: rgba(0, 100, 0, 0.2);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            margin: 2rem 0;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .success-message i {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .review-container {
+                padding: 2rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            textarea {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-container">
+        <div class="review-container">
+            <h1>Share Your Experience</h1>
+            <p class="intro-text">We cherish your thoughts about Wamoto's Kitchen. Your feedback helps us create unforgettable dining experiences.</p>
+            
+            <div id="success-message" class="success-message">
+                <i class="fas fa-check-circle"></i>
+                <h3>Thank You!</h3>
+                <p>Your review has been submitted successfully.</p>
+            </div>
+            
+            <form id="review-form">
+                <div class="form-group">
+                    <textarea id="review-text" placeholder="Tell us about your dining experience..."></textarea>
+                </div>
+                
+                <div class="rating-container">
+                    <i class="fas fa-star rating-star" data-rating="1"></i>
+                    <i class="fas fa-star rating-star" data-rating="2"></i>
+                    <i class="fas fa-star rating-star" data-rating="3"></i>
+                    <i class="fas fa-star rating-star" data-rating="4"></i>
+                    <i class="fas fa-star rating-star" data-rating="5"></i>
+                </div>
+                <input type="hidden" id="rating-value" value="0">
+                
+                <button type="submit" class="submit-btn" id="submit-btn">
+                    <span id="btn-text">Submit Review</span>
+                    <span id="btn-loader" class="loading" style="display:none;"></span>
+                </button>
+            </form>
+            
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced original functionality with rating system
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('.rating-star');
+            const ratingInput = document.getElementById('rating-value');
+            
+            // Star rating interaction
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    ratingInput.value = rating;
+                    
+                    // Update star display
+                    stars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.add('fas');
+                            s.classList.remove('far');
+                        } else {
+                            s.classList.add('far');
+                            s.classList.remove('fas');
+                        }
+                    });
+                });
+                
+                // Hover effects
+                star.addEventListener('mouseenter', function() {
+                    const hoverRating = parseInt(this.getAttribute('data-rating'));
+                    stars.forEach((s, index) => {
+                        s.classList.toggle('fas', index < hoverRating);
+                        s.classList.toggle('far', index >= hoverRating);
+                    });
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    const currentRating = parseInt(ratingInput.value);
+                    stars.forEach((s, index) => {
+                        s.classList.toggle('fas', index < currentRating);
+                        s.classList.toggle('far', index >= currentRating);
+                    });
+                });
+            });
+            
+            // Initialize stars as empty
+            stars.forEach(star => {
+                star.classList.add('far');
+            });
+            
+            // Original form submission with enhancements
+            document.getElementById('review-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const reviewText = document.getElementById('review-text').value;
+                const rating = ratingInput.value;
+                const submitBtn = document.getElementById('submit-btn');
+                const btnText = document.getElementById('btn-text');
+                const btnLoader = document.getElementById('btn-loader');
+                
+                if (reviewText.trim() === "") {
+                    alert("Please share your thoughts before submitting.");
+                    return;
+                }
+                
+                if (rating === "0") {
+                    alert("Please rate your experience by clicking the stars.");
+                    return;
+                }
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                btnText.textContent = "Submitting...";
+                btnLoader.style.display = "inline-block";
+                
+                fetch('../backend/submit_reviews.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        review_text: reviewText,
+                        rating: rating 
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        document.getElementById('success-message').style.display = 'block';
+                        document.getElementById('review-text').value = "";
+                        ratingInput.value = "0";
+                        
+                        // Reset stars
+                        stars.forEach(star => {
+                            star.classList.add('far');
+                            star.classList.remove('fas');
+                        });
+                        
+                        // Hide form temporarily
+                        document.getElementById('review-form').style.opacity = '0.5';
+                        setTimeout(() => {
+                            document.getElementById('review-form').style.opacity = '1';
+                            document.getElementById('success-message').style.display = 'none';
+                        }, 3000);
+                    } else {
+                        throw new Error(data.error || "Unknown error occurred");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting review:', error);
+                    alert("Error submitting review: " + error.message);
+                })
+                .finally(() => {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    btnText.textContent = "Submit Review";
+                    btnLoader.style.display = "none";
+                });
+            });
+        });
+    </script>
+</body>
+</html>

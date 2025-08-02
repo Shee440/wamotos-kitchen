@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Wamoto's Kitchen</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@300;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #C6A769;
+            --deep-red: #8B0000;
+            --ivory: #FFFFF0;
+            --charcoal: #333333;
+            --light-gold: rgba(198, 167, 105, 0.3);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--charcoal);
+            color: var(--ivory);
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--light-gold) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, var(--light-gold) 0%, transparent 25%);
+        }
+
+        .hero-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 2rem;
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%),
+                url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+
+        .container {
+            background: rgba(51, 51, 51, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 3rem 4rem;
+            max-width: 1000px;
+            width: 90%;
+            margin: 2rem auto;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--light-gold) 0%, transparent 70%);
+            opacity: 0.2;
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .delivery-info {
+            background: rgba(139, 0, 0, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: space-between;
+        }
+
+        .delivery-address {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .delivery-address h3 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .address-input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 240, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            color: var(--ivory);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .delivery-time {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .menu-section {
+            margin: 3rem 0;
+        }
+
+        .menu-category {
+            margin-bottom: 3rem;
+        }
+
+        .menu-category h2 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--gold);
+            font-size: 2rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-item {
+            background: rgba(139, 0, 0, 0.1);
+            border-left: 3px solid var(--gold);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .menu-item:hover {
+            background: rgba(139, 0, 0, 0.2);
+            transform: translateX(5px);
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .item-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ivory);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-description {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 240, 0.8);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .add-to-cart {
+            background: var(--gold);
+            color: var(--charcoal);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-to-cart:hover {
+            background: var(--ivory);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-to-cart i {
+            font-size: 1rem;
+        }
+
+        #cart-details {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(51, 51, 51, 0.7);
+            border-radius: 8px;
+            border: 1px solid var(--gold);
+        }
+
+        #cart-details h2 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--gold);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 0.5rem;
+        }
+
+        #cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #cart-table th {
+            text-align: left;
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--gold);
+            color: var(--gold);
+        }
+
+        #cart-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid rgba(198, 167, 105, 0.3);
+        }
+
+        #total-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-align: right;
+            margin-top: 1.5rem;
+        }
+
+        #place-order-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            padding: 1.2rem;
+            margin-top: 2rem;
+            background: var(--deep-red);
+            color: var(--ivory);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #place-order-btn:hover {
+            background: #6B0000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--charcoal);
+            color: var(--ivory);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(198, 167, 105, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,240,.3);
+            border-radius: 50%;
+            border-top-color: var(--ivory);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        /* NEW TRACK ORDER BUTTON STYLES (ADDED WITHOUT MODIFYING EXISTING CSS) */
+        .track-order-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--deep-red);
+            color: var(--ivory);
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .track-order-btn:hover {
+            background: #6B0000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .menu-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .item-controls {
+                justify-content: flex-end;
+            }
+
+            .track-order-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 0.8rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-container">
+        <div class="container">
+            <h1>Wamoto's Kitchen</h1>
+            
+            <div class="delivery-info">
+                <div class="delivery-address">
+                    <h3><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
+                    <input type="text" id="delivery-address" class="address-input" 
+                           placeholder="Enter your full delivery address" required>
+                </div>
+                <div class="delivery-time">
+                    <i class="fas fa-clock"></i> Estimated delivery time: 30-45 minutes
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div id="menu-items">
+                    <!-- Menu items will be populated here dynamically -->
+                </div>
+            </div>
+
+            <div id="cart-details">
+                <h2><i class="fas fa-shopping-cart"></i> Your Order</h2>
+                <table id="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Cart items will be listed here -->
+                    </tbody>
+                </table>
+                <div id="total-price">Total: $0.00</div>
+            </div>
+
+            <button id="place-order-btn">
+                <span id="order-btn-text">Place Delivery Order</span>
+                <span id="order-btn-loader" class="loading" style="display:none;"></span>
+            </button>
+
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- NEW TRACK ORDER BUTTON (initially hidden) -->
+    <button class="track-order-btn" id="track-order-btn">
+        <i class="fas fa-truck"></i> Track My Order
+    </button>
+
+    <script>
+        let cart = []; // Store cart items
+        let deliveryAddress = ''; // Store delivery address
+        let currentOrderId = null; // Store the current order ID
+
+        // Get address from localStorage if available
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedAddress = localStorage.getItem('wamotoDeliveryAddress');
+            if (savedAddress) {
+                document.getElementById('delivery-address').value = savedAddress;
+            }
+            
+            fetchMenuItems();
+            document.getElementById('cart-details').style.display = 'none';
+            document.getElementById('track-order-btn').style.display = 'none';
+        });
+
+        // Save address when changed
+        document.getElementById('delivery-address').addEventListener('change', function() {
+            localStorage.setItem('wamotoDeliveryAddress', this.value);
+        });
+
+        async function fetchMenuItems() {
+            try {
+                const response = await fetch("../backend/menu.php");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!Array.isArray(data)) {
+                    throw new Error("Invalid menu data received");
+                }
+                
+                displayMenuItems(data);
+            } catch (error) {
+                console.error("Error fetching menu:", error);
+                document.getElementById('menu-items').innerHTML = `
+                    <div style="color: var(--gold); padding: 2rem; text-align: center; border: 1px solid var(--gold); border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <h3>Failed to load menu</h3>
+                        <p>Please try again later or contact support</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayMenuItems(menuItems) {
+            const menuContainer = document.getElementById('menu-items');
+            menuContainer.innerHTML = "";
+
+            if (menuItems.length === 0) {
+                menuContainer.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gold); border: 1px dashed var(--gold); border-radius: 8px;">
+                        <i class="fas fa-utensils" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <h3>Menu Coming Soon</h3>
+                        <p>We're preparing something special for you</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const categories = {};
+            menuItems.forEach(item => {
+                if (!categories[item.category]) {
+                    categories[item.category] = [];
+                }
+                categories[item.category].push(item);
+            });
+
+            for (const [category, items] of Object.entries(categories)) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'menu-category';
+                categoryDiv.innerHTML = `<h2>${escapeHtml(category)}</h2>`;
+                menuContainer.appendChild(categoryDiv);
+
+                items.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'menu-item';
+                    itemDiv.innerHTML = `
+                        <div class="item-info">
+                            <div class="item-name">${escapeHtml(item.name)}</div>
+                            <div class="item-description">${escapeHtml(item.description)}</div>
+                            <div class="item-price">$${parseFloat(item.price).toFixed(2)}</div>
+                        </div>
+                        <div class="item-controls">
+                            <button class="add-to-cart" 
+                                    data-id="${escapeHtml(item.product_id.toString())}" 
+                                    data-name="${escapeHtml(item.name)}" 
+                                    data-price="${escapeHtml(item.price.toString())}">
+                                <i class="fas fa-plus"></i> Add to Order
+                            </button>
+                        </div>
+                    `;
+                    categoryDiv.appendChild(itemDiv);
+                });
+            }
+
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const productName = this.getAttribute('data-name');
+                    const productPrice = parseFloat(this.getAttribute('data-price'));
+
+                    const cartItem = cart.find(item => item.product_id === productId);
+                    if (cartItem) {
+                        cartItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            product_id: productId,
+                            name: productName,
+                            price: productPrice,
+                            quantity: 1
+                        });
+                    }
+
+                    this.innerHTML = `<i class="fas fa-check"></i> Added!`;
+                    setTimeout(() => {
+                        this.innerHTML = `<i class="fas fa-plus"></i> Add to Order`;
+                    }, 1000);
+
+                    updateCart();
+                });
+            });
+        }
+
+        function updateCart() {
+            const cartTableBody = document.getElementById('cart-table').getElementsByTagName('tbody')[0];
+            cartTableBody.innerHTML = "";
+
+            let totalPrice = 0;
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${escapeHtml(item.name)}</td>
+                    <td>${escapeHtml(item.quantity.toString())}</td>
+                    <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                `;
+                cartTableBody.appendChild(row);
+                totalPrice += item.price * item.quantity;
+            });
+
+            document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
+            document.getElementById('cart-details').style.display = cart.length ? 'block' : 'none';
+        }
+
+        document.getElementById('place-order-btn').addEventListener('click', async function () {
+            const orderBtn = this;
+            const btnText = document.getElementById('order-btn-text');
+            const btnLoader = document.getElementById('order-btn-loader');
+            const deliveryAddress = document.getElementById('delivery-address').value.trim();
+            
+            if (cart.length === 0) {
+                alert("Your cart is empty. Please add items before placing an order.");
+                return;
+            }
+
+            if (!deliveryAddress) {
+                alert("Please enter a delivery address.");
+                return;
+            }
+
+            orderBtn.disabled = true;
+            btnText.textContent = "Processing Order...";
+            btnLoader.style.display = "inline-block";
+
+            try {
+                const response = await fetch("../backend/place_order.php", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        cart: cart,
+                        delivery_address: deliveryAddress,
+                        user_action: 'place_order',
+                        timestamp: new Date().getTime()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}`);
+                }
+
+                const textResponse = await response.text();
+                console.log("Raw response:", textResponse);
+
+                let result;
+                try {
+                    result = JSON.parse(textResponse);
+                } catch (e) {
+                    throw new Error("Failed to parse JSON response");
+                }
+                
+                if (!result) {
+                    throw new Error("No response data received");
+                }
+
+                if (result.success) {
+                    currentOrderId = result.order_id; // Store the order ID
+                    
+                    const successHTML = `
+                        <div style="text-align: center; padding: 2rem; background: rgba(0,100,0,0.2); border: 1px solid var(--gold); border-radius: 8px; margin: 1rem 0;">
+                            <i class="fas fa-check-circle" style="color: var(--gold); font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <h3 style="color: var(--gold);">Order #${result.order_id} Placed Successfully!</h3>
+                            <p>Your food will be delivered to:<br><strong>${escapeHtml(deliveryAddress)}</strong></p>
+                            <p>Estimated delivery time: 30-45 minutes</p>
+                        </div>
+                    `;
+                    document.getElementById('cart-details').insertAdjacentHTML('beforebegin', successHTML);
+                    
+                    // Show and configure the track order button
+                    const trackOrderBtn = document.getElementById('track-order-btn');
+                    trackOrderBtn.style.display = 'flex';
+                    trackOrderBtn.onclick = function() {
+                        window.location.href = `track_order.html?order_id=${currentOrderId}`;
+                    };
+                    
+                    cart = [];
+                    updateCart();
+                } else {
+                    throw new Error(result.error || "Order failed without specific reason");
+                }
+            } catch (error) {
+                console.error("Order Error:", error);
+                const errorHTML = `
+                    <div style="text-align: center; padding: 2rem; background: rgba(139,0,0,0.2); border: 1px solid var(--gold); border-radius: 8px; margin: 1rem 0;">
+                        <i class="fas fa-exclamation-circle" style="color: var(--gold); font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--gold);">Order Failed</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+                document.getElementById('cart-details').insertAdjacentHTML('beforebegin', errorHTML);
+            } finally {
+                orderBtn.disabled = false;
+                btnText.textContent = "Place Delivery Order";
+                btnLoader.style.display = "none";
+            }
+        });
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                .toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
